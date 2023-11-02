@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Modules\Auth\Interface\Api\Controllers;
+namespace Modules\Auth\Presentation\Api\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;

@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Auth\Domain\Services\IAuthenticatedUserService;
-use Modules\Auth\Interface\Api\Controllers\RegisterController;
-use Modules\Auth\Interface\Api\Controllers\LoginController;
+use Modules\Auth\Presentation\Api\Controllers\RegisterController;
+use Modules\Auth\Presentation\Api\Controllers\LoginController;
 
 
 Route::post('/register', RegisterController::class)
@@ -16,9 +16,7 @@ Route::post('/login', LoginController::class)
 
 Route::get('/me', function () {
     $user = (app(IAuthenticatedUserService::class))->get();
-    return response()->json([
-        'name' => $user?->getName()
-    ]);
+    return response()->json($user?->toArray());
 })
     ->middleware('auth:sanctum')
     ->name('');

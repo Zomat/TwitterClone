@@ -59,10 +59,10 @@ class User extends BaseEntity
     public function toArray(): array
     {
         return [
-            'id' => $this->id,
+            'id' => $this->id->toNative(),
             'name' => $this->name,
-            'email' => $this->email,
-            'password' => $this->password,
+            'email' => $this->email->toNative(),
+            //'password' => $this->password,
             'email_verified_at' => $this->emailVerifiedAt,
             'remember_token' => $this->rememberToken,
         ];
