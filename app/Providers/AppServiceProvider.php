@@ -7,8 +7,6 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
 use Modules\Shared\Bus\CommandBus;
 use Modules\Shared\Bus\IlluminateCommandBus;
-use Modules\Shared\Bus\IlluminateQueryBus;
-use Modules\Shared\Bus\QueryBus;
 use Modules\Shared\Services\IdService;
 use Modules\Shared\Services\UuidService;
 
@@ -23,7 +21,6 @@ class AppServiceProvider extends ServiceProvider
 
         $singletons = [
             CommandBus::class => IlluminateCommandBus::class,
-            QueryBus::class => IlluminateQueryBus::class,
             IdService::class => UuidService::class,
         ];
 

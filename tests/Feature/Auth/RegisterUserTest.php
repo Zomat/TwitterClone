@@ -4,7 +4,8 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Modules\Auth\Commands\CreateUserCommand;
+use Modules\Auth\Application\Commands\CreateUserCommand;
+use Modules\Auth\Application\Queries\IFindUserQuery;
 use Modules\Shared\Bus\CommandBus;
 use Modules\Shared\ValueObjects\Email;
 use Modules\Shared\ValueObjects\Id;

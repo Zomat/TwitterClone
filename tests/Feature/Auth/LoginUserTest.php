@@ -4,7 +4,7 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Modules\Auth\Queries\LoginUserQuery;
+use Modules\Auth\Application\Queries\ILoginUserQuery;
 use Modules\Shared\Bus\QueryBus;
 use Modules\Shared\ValueObjects\Email;
 use Tests\TestCase;
@@ -25,13 +25,11 @@ class LoginUserTest extends TestCase
             "password" => Hash::make('123456789')
         ]);
 
-        $queryBus = app(QueryBus::class);
+        $loginUserQuery = app(ILoginUserQuery::class);
 
-        $user = $queryBus->ask(
-            new LoginUserQuery(
-                email: Email::fromString($email),
-                password: '123456789',
-            )
+        $user = $loginUserQuery->ask(
+            Email::fromString($email),
+            '123456789'
         );
 
         $this->assertEquals($user->getEmail()->toNative(), $email);
@@ -46,13 +44,11 @@ class LoginUserTest extends TestCase
             "password" => Hash::make('123456789')
         ]);
 
-        $queryBus = app(QueryBus::class);
+        $loginUserQuery = app(ILoginUserQuery::class);
 
-        $user = $queryBus->ask(
-            new LoginUserQuery(
-                email: Email::fromString('test@example2.com'),
-                password: '123456789',
-            )
+        $user = $loginUserQuery->ask(
+            Email::fromString($email.'2'),
+            '123456789'
         );
 
         $this->assertNull($user);
@@ -67,13 +63,11 @@ class LoginUserTest extends TestCase
             "password" => Hash::make('123456789')
         ]);
 
-        $queryBus = app(QueryBus::class);
+        $loginUserQuery = app(ILoginUserQuery::class);
 
-        $user = $queryBus->ask(
-            new LoginUserQuery(
-                email: Email::fromString($email),
-                password: '12345678910',
-            )
+        $user = $loginUserQuery->ask(
+            Email::fromString($email),
+            '12345678910'
         );
 
         $this->assertNull($user);
