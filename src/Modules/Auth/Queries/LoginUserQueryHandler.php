@@ -2,9 +2,8 @@
 
 namespace Modules\Auth\Queries;
 
-use Modules\Auth\Repositories\IReadUserRepository;
+use Modules\Shared\Repositories\User\IReadUserRepository;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
 class LoginUserQueryHandler
 {
@@ -18,7 +17,7 @@ class LoginUserQueryHandler
             $query->email
         );
 
-        if ($user !== null && Hash::check($query->password, $user->password)) {
+        if ($user !== null && Hash::check($query->password, $user->getPassword())) {
             return $user;
         }
 

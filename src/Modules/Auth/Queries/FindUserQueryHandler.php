@@ -2,7 +2,7 @@
 
 namespace Modules\Auth\Queries;
 
-use Modules\Auth\Repositories\IReadUserRepository;
+use Modules\Shared\Repositories\User\IReadUserRepository;
 
 class FindUserQueryHandler
 {

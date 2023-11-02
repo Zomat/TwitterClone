@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Modules\Auth\Repositories;
+namespace Modules\Shared\Repositories\User;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;

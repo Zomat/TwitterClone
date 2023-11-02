@@ -3,7 +3,7 @@
 namespace Modules\Auth\Queries;
 
 use Modules\Shared\ValueObjects\Email;
-use App\Bus\Query;
+use Modules\Shared\Bus\Query;
 
 class LoginUserQuery extends Query
 {

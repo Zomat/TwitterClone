@@ -2,8 +2,8 @@
 
 namespace Modules\Auth\Commands;
 
-use App\Bus\CommandHandler;
-use Modules\Auth\Repositories\IWriteUserRepository;
+use Modules\Shared\Bus\CommandHandler;
+use Modules\Shared\Repositories\User\IWriteUserRepository;
 
 class CreateUserCommandHandler extends CommandHandler
 {

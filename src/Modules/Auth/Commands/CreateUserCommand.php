@@ -2,9 +2,9 @@
 
 namespace Modules\Auth\Commands;
 
-use App\Bus\Command;
 use Modules\Shared\ValueObjects\Email;
 use Modules\Shared\ValueObjects\Id;
+use Modules\Shared\Bus\Command;
 
 class CreateUserCommand extends Command
 {

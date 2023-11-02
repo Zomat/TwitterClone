@@ -2,14 +2,14 @@
 
 namespace Modules\Auth\Controllers;
 
-use App\Bus\CommandBus;
-use App\Bus\QueryBus;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 
 use Modules\Auth\Commands\CreateUserCommand;
 use Modules\Auth\Queries\FindUserQuery;
 use Modules\Auth\Requests\RegisterUserRequest;
+use Modules\Shared\Bus\CommandBus;
+use Modules\Shared\Bus\QueryBus;
 use Modules\Shared\Services\IdService;
 use Modules\Shared\ValueObjects\Email;
 
@@ -40,13 +40,8 @@ class RegisterController extends Controller
             new FindUserQuery($id)
         );
 
-        $userModel = User::where('id', $user->id)->first();
-
-        $token = $userModel->createToken('apiToken')->plainTextToken;
-
         return response()->json([
-            'id' => $user->id,
-            'token' => $token
+            'id' => $user->getId(),
         ], 201);
     }
 }
