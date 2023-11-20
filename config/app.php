@@ -173,6 +173,9 @@ return [
 
         Modules\Auth\Infrastructure\Providers\AuthServiceProvider::class,
         Modules\Auth\Infrastructure\Providers\RouteServiceProvider::class,
+
+        Modules\Post\Infrastructure\Providers\PostServiceProvider::class,
+        Modules\Post\Infrastructure\Providers\RouteServiceProvider::class,
     ])->toArray(),
 
     /*

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Modules\Auth\Application\Requests;
+namespace Modules\Auth\Presentation\Api\Requests;
 
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;

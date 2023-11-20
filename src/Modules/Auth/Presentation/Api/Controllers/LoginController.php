@@ -4,45 +4,27 @@ namespace Modules\Auth\Presentation\Api\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Modules\Auth\Application\Commands\CreatePersonalAccessTokenCommand;
-use Modules\Auth\Application\Commands\RevokeAllPersonalAccessTokenCommand;
-use Modules\Auth\Application\Queries\ILoginUserQuery;
-use Modules\Auth\Application\Requests\LoginUserRequest;
-use Modules\Shared\Bus\CommandBus;
-use Modules\Shared\ValueObjects\Email;
+use Modules\Auth\Application\Dtos\LoginUserDto;
+use Modules\Auth\Application\Exceptions\AuthenticationException;
+use Modules\Auth\Application\Services\LoginService;
+use Modules\Auth\Presentation\Api\Requests\LoginUserRequest;
 
 class LoginController extends Controller
 {
     public function __construct(
-        protected CommandBus $commandBus,
-        protected ILoginUserQuery $loginUserQuery,
+        protected LoginService $service
     ) {}
 
     public function __invoke(LoginUserRequest $request): JsonResponse
     {
-        $user = $this->loginUserQuery->ask(
-            email: Email::fromString($request->email),
-            password: $request->password
-        );
-
-        if ($user === null) {
+        try {
+            $token = $this->service->login(new LoginUserDto(
+                email: $request->email,
+                password: $request->password,
+            ));
+        } catch (AuthenticationException $e) {
             return response()->json(["message"=> "Bad credentials"], 401);
         }
-
-        $this->commandBus->dispatch(
-            new RevokeAllPersonalAccessTokenCommand($user->getId())
-        );
-
-        $token = sprintf(
-            '%s%s%s',
-            '',
-            $tokenEntropy = bin2hex(random_bytes(20)),
-            hash('crc32b', $tokenEntropy)
-        );
-
-        $this->commandBus->dispatch(
-            new CreatePersonalAccessTokenCommand($user->getId(), $token)
-        );
 
         return response()->json([
             'token' => $token

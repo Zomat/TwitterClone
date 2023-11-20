@@ -4,41 +4,26 @@ namespace Modules\Auth\Presentation\Api\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-
-use Modules\Auth\Application\Commands\CreateUserCommand;
-use Modules\Auth\Application\Queries\IFindUserQuery;
-use Modules\Auth\Application\Requests\RegisterUserRequest;
-use Modules\Shared\Bus\CommandBus;
-use Modules\Shared\Services\IdService;
-use Modules\Shared\ValueObjects\Email;
+use Modules\Auth\Application\Dtos\RegisterUserDto;
+use Modules\Auth\Application\Services\RegisterService;
+use Modules\Auth\Presentation\Api\Requests\RegisterUserRequest;
 
 class RegisterController extends Controller
 {
     public function __construct(
-        protected CommandBus $commandBus,
-        protected IdService $idService,
-        protected IFindUserQuery $findUserQuery,
+        protected RegisterService $service,
     ) {}
 
     public function __invoke(RegisterUserRequest $request): JsonResponse
     {
-        $id = $this->idService->generate();
-
-        $this->commandBus->dispatch(
-            new CreateUserCommand(
-                id: $id,
-                name: $request->name,
-                email: Email::fromString($request->email),
-                password: $request->password
-            )
-        );
-
-        $user = $this->findUserQuery->ask(
-            userId: $id
-        );
+        $user = $this->service->register(new RegisterUserDto(
+            name: $request->name,
+            email: $request->email,
+            password: $request->password,
+        ));
 
         return response()->json([
-            'id' => $user->getId(),
+            'id' => $user->getId()->toNative(),
         ], 201);
     }
 }
