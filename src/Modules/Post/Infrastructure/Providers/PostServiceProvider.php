@@ -3,6 +3,10 @@
 namespace Modules\Post\Infrastructure\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\Post\Application\Commands\CreatePostCommand;
+use Modules\Post\Application\Commands\CreatePostCommandHandler;
+use Modules\Post\Domain\Repositories\IWritePostRepository;
+use Modules\Post\Infrastructure\Repositories\WritePostRepository;
 use Modules\Shared\Bus\CommandBus;
 
 class PostServiceProvider extends ServiceProvider
@@ -13,7 +17,7 @@ class PostServiceProvider extends ServiceProvider
     public function register(): void
     {
         $singletons = [
-
+            IWritePostRepository::class => WritePostRepository::class,
         ];
 
         foreach ($singletons as $abstract => $concrete) {
@@ -31,6 +35,8 @@ class PostServiceProvider extends ServiceProvider
     {
         $commandBus = app(CommandBus::class);
 
-        $commandBus->register([]);
+        $commandBus->register([
+            CreatePostCommand::class => CreatePostCommandHandler::class,
+        ]);
     }
 }

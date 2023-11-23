@@ -7,7 +7,9 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
 use Modules\Shared\Bus\CommandBus;
 use Modules\Shared\Bus\IlluminateCommandBus;
+use Modules\Shared\Services\IAuthenticatedUserService;
 use Modules\Shared\Services\IdService;
+use Modules\Shared\Services\SanctumAuthenticatedUserService;
 use Modules\Shared\Services\UuidService;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
         $singletons = [
             CommandBus::class => IlluminateCommandBus::class,
             IdService::class => UuidService::class,
+            IAuthenticatedUserService::class => SanctumAuthenticatedUserService::class,
         ];
 
         foreach ($singletons as $abstract => $concrete) {

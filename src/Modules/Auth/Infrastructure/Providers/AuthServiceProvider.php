@@ -14,9 +14,7 @@ use Modules\Auth\Application\Queries\IFindUserQuery;
 use Modules\Auth\Application\Queries\ILoginUserQuery;
 use Modules\Auth\Application\Queries\LoginUserQuery;
 use Modules\Auth\Domain\Repositories\IWritePersonalAccessTokenRepository;
-use Modules\Auth\Domain\Services\IAuthenticatedUserService;
 use Modules\Auth\Infrastructure\Repositories\WritePersonalAccessTokenRepository;
-use Modules\Auth\Infrastructure\Services\SanctumAuthenticatedUserService;
 use Modules\Shared\Bus\CommandBus;
 use Modules\Shared\Repositories\User\IReadUserRepository;
 use Modules\Shared\Repositories\User\IWriteUserRepository;
@@ -34,7 +32,6 @@ class AuthServiceProvider extends ServiceProvider
             IReadUserRepository::class => ReadUserRepository::class,
             IWriteUserRepository::class => WriteUserRepository::class,
             IWritePersonalAccessTokenRepository::class => WritePersonalAccessTokenRepository::class,
-            IAuthenticatedUserService::class => SanctumAuthenticatedUserService::class,
 
             ILoginUserQuery::class => LoginUserQuery::class,
             IFindUserQuery::class => FindUserQuery::class,

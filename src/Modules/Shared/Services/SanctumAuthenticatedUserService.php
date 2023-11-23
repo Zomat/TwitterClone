@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace Modules\Auth\Infrastructure\Services;
+namespace Modules\Shared\Services;
 
-use Modules\Auth\Domain\Services\IAuthenticatedUserService;
 use Modules\Shared\Entities\User;
 use Modules\Shared\Mappers\UserMapper;
 

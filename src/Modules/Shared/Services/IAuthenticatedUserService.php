@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Modules\Auth\Domain\Services;
+namespace Modules\Shared\Services;
 
 use Modules\Shared\Entities\User;
 
