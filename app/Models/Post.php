@@ -12,4 +12,9 @@ class Post extends Model
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
+
+    public function likes()
+    {
+        return $this->hasMany(PostLike::class, 'post_id', 'id');
+    }
 }

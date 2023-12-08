@@ -34,9 +34,11 @@ class WritePersonalAccessTokenRepository implements IWritePersonalAccessTokenRep
     {
         $tokens = PersonalAccessToken::where('tokenable_id', $userId->toNative())->get();
 
-        foreach ($tokens as $token) {
-            $token->delete();
-        }
+        \DB::transaction(function () use ($tokens) {
+            foreach ($tokens as $token) {
+                $token->delete();
+            }
+        });
     }
 }
 

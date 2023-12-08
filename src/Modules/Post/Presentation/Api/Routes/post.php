@@ -2,7 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Post\Presentation\Api\Controllers\CreatePostController;
+use Modules\Post\Presentation\Api\Controllers\LikePostController;
 
 Route::post('/post', CreatePostController::class)
     ->middleware('auth:sanctum')
     ->name('create');
+
+Route::post('/post/like', LikePostController::class)
+    ->middleware('auth:sanctum')
+    ->name('like');

@@ -5,7 +5,11 @@ namespace Modules\Post\Infrastructure\Providers;
 use Illuminate\Support\ServiceProvider;
 use Modules\Post\Application\Commands\CreatePostCommand;
 use Modules\Post\Application\Commands\CreatePostCommandHandler;
-use Modules\Post\Domain\Repositories\IWritePostRepository;
+use Modules\Post\Application\Commands\LikePostCommand;
+use Modules\Post\Application\Commands\LikePostCommandHandler;
+use Modules\Post\Domain\IReadPostRepository;
+use Modules\Post\Domain\IWritePostRepository;
+use Modules\Post\Infrastructure\Repositories\ReadPostRepository;
 use Modules\Post\Infrastructure\Repositories\WritePostRepository;
 use Modules\Shared\Bus\CommandBus;
 
@@ -18,6 +22,7 @@ class PostServiceProvider extends ServiceProvider
     {
         $singletons = [
             IWritePostRepository::class => WritePostRepository::class,
+            IReadPostRepository::class => ReadPostRepository::class
         ];
 
         foreach ($singletons as $abstract => $concrete) {
@@ -37,6 +42,7 @@ class PostServiceProvider extends ServiceProvider
 
         $commandBus->register([
             CreatePostCommand::class => CreatePostCommandHandler::class,
+            LikePostCommand::class => LikePostCommandHandler::class
         ]);
     }
 }
