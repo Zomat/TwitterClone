@@ -22,7 +22,7 @@ class ReadUserRepository implements IReadUserRepository
             name: $user->name,
             email: Email::fromString($user->email),
             password: $user->password,
-            emailVerifiedAt: new \DateTime($user->email_verified_at),
+            emailVerifiedAt: $user->email_verified_at ? new \DateTime($user->email_verified_at) : null,
             rememberToken: $user->remember_token
         );
     }
@@ -40,7 +40,7 @@ class ReadUserRepository implements IReadUserRepository
             name: $user->name,
             email: Email::fromString($user->email),
             password: $user->password,
-            emailVerifiedAt: new \DateTime($user->email_verified_at),
+            emailVerifiedAt: $user->email_verified_at ? new \DateTime($user->email_verified_at) : null,
             rememberToken: $user->remember_token
         );
     }

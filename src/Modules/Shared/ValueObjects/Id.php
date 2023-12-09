@@ -17,4 +17,9 @@ class Id
     {
         return $this->id;
     }
+
+    public function equals(Id $id): bool
+    {
+        return $this->id === $id->toNative();
+    }
 }

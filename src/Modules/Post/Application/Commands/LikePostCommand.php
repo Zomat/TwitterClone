@@ -11,6 +11,6 @@ class LikePostCommand extends Command
         public readonly Id $id,
         public readonly Id $userId,
         public readonly Id $postId,
-        public readonly \DateTimeImmutable $createdAt,
+        public readonly \DateTime $createdAt,
     ) {}
 }

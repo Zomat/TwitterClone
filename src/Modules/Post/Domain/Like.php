@@ -15,6 +15,16 @@ final class Like extends BaseEntity
         private \DateTime $createdAt,
     ) {}
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id->toNative(),
+            'postId' => $this->postId->toNative(),
+            'userId' => $this->userId->toNative(),
+            'createdAt' => $this->createdAt->format('Y-m-d H:i:s')
+        ];
+    }
+
     public function getId(): Id
     {
         return $this->id;

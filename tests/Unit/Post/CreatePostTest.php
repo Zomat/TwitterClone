@@ -31,7 +31,7 @@ class CreatePostTest extends TestCase
             'userId' => $userIdMock->toNative(),
             'content' => 'Test content',
             'createdAt' => $createdAtMock->format('Y-m-d H:i:s'),
-            'likes' => null
+            'likes' => []
        ]);
     }
 }

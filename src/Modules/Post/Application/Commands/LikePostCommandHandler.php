@@ -2,11 +2,10 @@
 
 namespace Modules\Post\Application\Commands;
 
-use Modules\Post\Application\Commands\CreatePostCommand;
 use Modules\Post\Domain\IReadPostRepository;
 use Modules\Post\Domain\IWritePostRepository;
+use Modules\Post\Domain\PostAlreadyLikedException;
 use Modules\Shared\Bus\CommandHandler;
-use Modules\Post\Domain\Post;
 
 class LikePostCommandHandler extends CommandHandler
 {
@@ -17,10 +16,9 @@ class LikePostCommandHandler extends CommandHandler
 
     public function handle(LikePostCommand $command)
     {
-        // Load data
         $post = $this->readRepository->findById($command->postId);
 
-        //$post->like();
-        //$this->repository->create($post);
+        $post->like($command->id, $command->userId, $command->createdAt);
+        $this->writeRepository->update($post);
     }
 }

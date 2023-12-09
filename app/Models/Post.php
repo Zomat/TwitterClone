@@ -13,6 +13,8 @@ class Post extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
+    protected $fillable = ['content'];
+
     public function likes()
     {
         return $this->hasMany(PostLike::class, 'post_id', 'id');
