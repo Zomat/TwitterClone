@@ -41,19 +41,25 @@ final class WritePostRepository implements IWritePostRepository
 
     private function syncLikes(EloquentPost $post, array $likes): void
     {
+        $existingLikes = $post->likes->pluck('id')->toArray();
+        $newLikes = collect($likes)->pluck('id')->toArray();
+
+        $likesToRemove = array_diff($existingLikes, $newLikes);
+        $likesToAdd = array_diff($newLikes, $existingLikes);
+
+        // Remove likes that are not present in the updated array
+        EloquentPostLike::whereIn('id', $likesToRemove)->delete();
+
+        // Add new likes
         foreach ($likes as $like) {
-            $likeExists = $post->likes()->where('id', $like['id'])->exists();
-
-            if ($likeExists) {
-                continue;
+            if (in_array($like['id'], $likesToAdd)) {
+                EloquentPostLike::create([
+                    'id' => $like['id'],
+                    'user_id' => $like['userId'],
+                    'post_id' => $like['postId'],
+                    'created_at' => $like['createdAt'],
+                ]);
             }
-
-            EloquentPostLike::create([
-                'id' => $like['id'],
-                'user_id' => $like['userId'],
-                'post_id' => $like['postId'],
-                'created_at' => $like['createdAt'],
-            ]);
         }
     }
 }
