@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\Post\Domain\Post;
 use App\Models\Post as EloquentPost;
 use App\Models\PostLike as EloquentPostLike;
+use App\Models\PostComment as EloquentPostComment;
 
 final class WritePostRepository implements IWritePostRepository
 {
@@ -28,7 +29,7 @@ final class WritePostRepository implements IWritePostRepository
     {
         $payload = $post->getPayload();
 
-        $eloquentPost = EloquentPost::where('id', $payload['id'])->with('likes')->firstOrFail();
+        $eloquentPost = EloquentPost::where('id', $payload['id'])->with(['likes', 'comments'])->firstOrFail();
 
         DB::transaction(function () use ($eloquentPost, $payload) {
             $eloquentPost->update([
@@ -36,6 +37,7 @@ final class WritePostRepository implements IWritePostRepository
             ]);
 
             $this->syncLikes($eloquentPost, $payload['likes']);
+            $this->syncComments($eloquentPost, $payload['comments']);
         });
     }
 
@@ -58,6 +60,31 @@ final class WritePostRepository implements IWritePostRepository
                     'user_id' => $like['userId'],
                     'post_id' => $like['postId'],
                     'created_at' => $like['createdAt'],
+                ]);
+            }
+        }
+    }
+
+    private function syncComments(EloquentPost $post, array $comments): void
+    {
+        $existingComments = $post->comments->pluck('id')->toArray();
+        $newComments = collect($comments)->pluck('id')->toArray();
+
+        $commentsToRemove = array_diff($existingComments, $newComments);
+        $commentsToAdd = array_diff($newComments, $existingComments);
+
+        // Remove likes that are not present in the updated array
+        EloquentPostComment::whereIn('id', $commentsToRemove)->delete();
+
+        // Add new likes
+        foreach ($comments as $comment) {
+            if (in_array($comment['id'], $commentsToAdd)) {
+                EloquentPostComment::create([
+                    'id' => $comment['id'],
+                    'user_id' => $comment['userId'],
+                    'post_id' => $comment['postId'],
+                    'content' => $comment['content'],
+                    'created_at' => $comment['createdAt'],
                 ]);
             }
         }

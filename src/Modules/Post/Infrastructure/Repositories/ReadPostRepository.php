@@ -6,6 +6,7 @@ use Modules\Post\Domain\IReadPostRepository;
 use Illuminate\Support\Facades\DB;
 use Modules\Post\Domain\Like;
 use Modules\Post\Domain\Post;
+use Modules\Post\Domain\Comment;
 use Modules\Shared\ValueObjects\Id;
 use App\Models\Post as EloquentPost;
 
@@ -36,13 +37,27 @@ final class ReadPostRepository implements IReadPostRepository
             );
         }
 
+        $comments = $postModel->comments;
+        $commentsEntites = [];
+
+        foreach ($comments as $comment) {
+            $commentsEntites[] = new Comment(
+                id: Id::fromString($comment->id),
+                userId: Id::fromString($comment->user_id),
+                postId: Id::fromString($comment->post_id),
+                content: $comment->content,
+                createdAt: new \DateTime($comment->created_at),
+            );
+        }
+
         $post = new Post;
         $post->load(
             id: Id::fromString($postModel->id),
             userId: Id::fromString($postModel->user_id),
             content: $postModel->content,
             createdAt: $postModel->created_at->toDateTimeImmutable(),
-            likes: $likesEntites
+            likes: $likesEntites,
+            comments: $commentsEntites
         );
 
         return $post;

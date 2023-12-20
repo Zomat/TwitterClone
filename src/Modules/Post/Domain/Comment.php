@@ -5,21 +5,23 @@ namespace Modules\Post\Domain;
 use Modules\Shared\Entities\BaseEntity;
 use Modules\Shared\ValueObjects\Id;
 
-final class Like extends BaseEntity
+final class Comment extends BaseEntity
 {
     public function __construct(
         private Id $id,
-        private Id $postId,
         private Id $userId,
-        private \DateTime $createdAt,
+        private Id $postId,
+        private string $content,
+        private \DateTime $createdAt
     ) {}
 
     public function toArray(): array
     {
         return [
             'id' => $this->id->toNative(),
-            'postId' => $this->postId->toNative(),
             'userId' => $this->userId->toNative(),
+            'postId' => $this->postId->toNative(),
+            'content' => $this->content,
             'createdAt' => $this->createdAt->format('Y-m-d H:i:s')
         ];
     }
@@ -29,14 +31,19 @@ final class Like extends BaseEntity
         return $this->id;
     }
 
+    public function getUserId(): Id
+    {
+        return $this->userId;
+    }
+
     public function getPostId(): Id
     {
         return $this->postId;
     }
 
-    public function getUserId(): Id
+    public function getContent(): string
     {
-        return $this->userId;
+        return $this->content;
     }
 
     public function getCreatedAt(): \DateTime
@@ -49,14 +56,19 @@ final class Like extends BaseEntity
         $this->id = $id;
     }
 
+    public function setUserId(Id $userId): void
+    {
+        $this->userId = $userId;
+    }
+
     public function setPostId(Id $postId): void
     {
         $this->postId = $postId;
     }
 
-    public function setUserId(Id $userId): void
+    public function setContent(string $content): void
     {
-        $this->userId = $userId;
+        $this->content = $content;
     }
 
     public function setCreatedAt(\DateTime $createdAt): void

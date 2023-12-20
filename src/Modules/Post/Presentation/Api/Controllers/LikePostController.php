@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
 use Modules\Post\Application\Commands\LikePostCommand;
-use Modules\Post\Domain\PostAlreadyLikedException;
 use Modules\Post\Presentation\Api\Requests\LikePostRequest;
 use Modules\Shared\Bus\CommandBus;
 use Modules\Shared\Services\IAuthenticatedUserService;
@@ -36,10 +35,6 @@ class LikePostController extends Controller
                     createdAt: Carbon::now()->toDateTime(),
                 )
             );
-        } catch (PostAlreadyLikedException $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 400);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),

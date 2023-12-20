@@ -3,6 +3,8 @@
 namespace Modules\Post\Infrastructure\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\Post\Application\Commands\CommentPostCommand;
+use Modules\Post\Application\Commands\CommentPostCommandHandler;
 use Modules\Post\Application\Commands\CreatePostCommand;
 use Modules\Post\Application\Commands\CreatePostCommandHandler;
 use Modules\Post\Application\Commands\LikePostCommand;
@@ -42,7 +44,8 @@ class PostServiceProvider extends ServiceProvider
 
         $commandBus->register([
             CreatePostCommand::class => CreatePostCommandHandler::class,
-            LikePostCommand::class => LikePostCommandHandler::class
+            LikePostCommand::class => LikePostCommandHandler::class,
+            CommentPostCommand::class => CommentPostCommandHandler::class,
         ]);
     }
 }
