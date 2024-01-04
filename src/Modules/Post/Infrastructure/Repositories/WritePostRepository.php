@@ -5,9 +5,11 @@ namespace Modules\Post\Infrastructure\Repositories;
 use Modules\Post\Domain\IWritePostRepository;
 use Illuminate\Support\Facades\DB;
 use Modules\Post\Domain\Post;
+use Modules\Post\Domain\Share;
 use App\Models\Post as EloquentPost;
 use App\Models\PostLike as EloquentPostLike;
 use App\Models\PostComment as EloquentPostComment;
+use App\Models\PostShare as EloquentPostShare;
 
 final class WritePostRepository implements IWritePostRepository
 {
@@ -88,5 +90,16 @@ final class WritePostRepository implements IWritePostRepository
                 ]);
             }
         }
+    }
+
+    public function share(Share $share): void
+    {
+        EloquentPostShare::create([
+            'id' => $share->getId()->toNative(),
+            'user_id' => $share->getUserId()->toNative(),
+            'post_id' => $share->getPostId()->toNative(),
+            'content' => $share->getContent(),
+            'created_at' => $share->getCreatedAt()
+        ]);
     }
 }

@@ -5,14 +5,14 @@ namespace Modules\Post\Presentation\Api\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
-use Modules\Post\Application\Commands\CommentPostCommand;
-use Modules\Post\Presentation\Api\Requests\CommentPostRequest;
+use Modules\Post\Application\Commands\SharePostCommand;
+use Modules\Post\Presentation\Api\Requests\SharePostRequest;
 use Modules\Shared\Bus\CommandBus;
 use Modules\Shared\Services\IAuthenticatedUserService;
 use Modules\Shared\Services\IdService;
 use Modules\Shared\ValueObjects\Id;
 
-class CommentPostController extends Controller
+class SharePostController extends Controller
 {
     public function __construct(
         protected CommandBus $commandBus,
@@ -20,15 +20,15 @@ class CommentPostController extends Controller
         protected IdService $idService,
     ) {}
 
-    public function __invoke(CommentPostRequest $request): JsonResponse
+    public function __invoke(SharePostRequest $request): JsonResponse
     {
         $user = $this->authenticationService->get();
 
-        $commentId = $this->idService->generate();
+        $shareId = $this->idService->generate();
 
         $this->commandBus->dispatch(
-            new CommentPostCommand(
-                id: $commentId,
+            new SharePostCommand(
+                id: $shareId,
                 postId: Id::fromString($request->postId),
                 userId: $user->getId(),
                 content: $request->content,
@@ -37,8 +37,8 @@ class CommentPostController extends Controller
         );
 
         return response()->json([
-            "message" => "Comment created",
-            "commentId" => $commentId->toNative()
+            "message" => "Share created",
+            "shareId" => $shareId->toNative()
         ], 200);
     }
 }

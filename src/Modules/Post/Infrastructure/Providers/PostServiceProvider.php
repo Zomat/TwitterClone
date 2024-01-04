@@ -9,6 +9,8 @@ use Modules\Post\Application\Commands\CreatePostCommand;
 use Modules\Post\Application\Commands\CreatePostCommandHandler;
 use Modules\Post\Application\Commands\LikePostCommand;
 use Modules\Post\Application\Commands\LikePostCommandHandler;
+use Modules\Post\Application\Commands\SharePostCommand;
+use Modules\Post\Application\Commands\SharePostCommandHandler;
 use Modules\Post\Domain\IReadPostRepository;
 use Modules\Post\Domain\IWritePostRepository;
 use Modules\Post\Infrastructure\Repositories\ReadPostRepository;
@@ -46,6 +48,7 @@ class PostServiceProvider extends ServiceProvider
             CreatePostCommand::class => CreatePostCommandHandler::class,
             LikePostCommand::class => LikePostCommandHandler::class,
             CommentPostCommand::class => CommentPostCommandHandler::class,
+            SharePostCommand::class => SharePostCommandHandler::class
         ]);
     }
 }

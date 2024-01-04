@@ -24,4 +24,9 @@ class Post extends Model
     {
         return $this->hasMany(PostComment::class, 'post_id', 'id');
     }
+
+    public function shares()
+    {
+        return $this->hasMany(PostShare::class, 'post_id', 'id');
+    }
 }

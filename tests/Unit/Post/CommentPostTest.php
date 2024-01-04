@@ -3,7 +3,6 @@
 namespace Tests\Unit\Post;
 
 use Modules\Post\Domain\Post;
-use Modules\Post\Domain\PostAlreadyLikedException;
 use Modules\Shared\ValueObjects\Id;
 use Tests\TestCase;
 
@@ -50,7 +49,6 @@ class CommentPostTest extends TestCase
             createdAt: $createdAt
         );
 
-        //dd($this->post->getPayload());
         /* Then */
         $this->assertEquals($this->post->getPayload()['comments'], [
             [
