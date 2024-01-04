@@ -24,7 +24,7 @@ class SharePostRequest extends FormRequest
     {
         return [
             'postId' => ['required', 'string', Rule::exists('posts', 'id')],
-            'content' => ['required', 'string'],
+            'content' => ['string'],
         ];
     }
 }
