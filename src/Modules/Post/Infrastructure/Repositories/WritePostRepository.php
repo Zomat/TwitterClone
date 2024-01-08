@@ -2,6 +2,7 @@
 
 namespace Modules\Post\Infrastructure\Repositories;
 
+use Modules\Shared\Repositories\DatabaseTransactions;
 use Modules\Post\Domain\IWritePostRepository;
 use Illuminate\Support\Facades\DB;
 use Modules\Post\Domain\Post;
@@ -13,6 +14,8 @@ use App\Models\PostShare as EloquentPostShare;
 
 final class WritePostRepository implements IWritePostRepository
 {
+    use DatabaseTransactions;
+
     const POST_LIKES_TABLE = 'post_likes';
 
     public function create(Post $post): void
@@ -33,14 +36,21 @@ final class WritePostRepository implements IWritePostRepository
 
         $eloquentPost = EloquentPost::where('id', $payload['id'])->with(['likes', 'comments'])->firstOrFail();
 
-        DB::transaction(function () use ($eloquentPost, $payload) {
+        $this->beginTransaction();
+
+        try {
             $eloquentPost->update([
                 'content' => $payload['content'],
             ]);
 
             $this->syncLikes($eloquentPost, $payload['likes']);
             $this->syncComments($eloquentPost, $payload['comments']);
-        });
+
+            $this->commit();
+        } catch (\Exception $e) {
+            $this->rollback();
+            throw $e;
+        }
     }
 
     private function syncLikes(EloquentPost $post, array $likes): void

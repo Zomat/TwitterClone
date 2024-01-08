@@ -51,11 +51,12 @@ final class ReadPostRepository implements IReadPostRepository
         }
 
         $post = new Post;
+
         $post->load(
             id: Id::fromString($postModel->id),
             userId: Id::fromString($postModel->user_id),
             content: $postModel->content,
-            createdAt: $postModel->created_at->toDateTimeImmutable(),
+            createdAt: new \DateTimeImmutable($postModel->created_at),
             likes: $likesEntites,
             comments: $commentsEntites
         );

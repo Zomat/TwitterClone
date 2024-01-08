@@ -9,11 +9,13 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $table = 'posts';
     protected $primaryKey = 'id';
-    protected $keyType = 'string';
     public $incrementing = false;
+    protected $keyType = 'string';
+    public $timestamps = false;
 
-    protected $fillable = ['content'];
+    protected $fillable = ['id', 'user_id', 'content', 'created_at'];
 
     public function likes()
     {

@@ -3,8 +3,9 @@
 namespace Modules\Post\Domain;
 
 use Modules\Post\Domain\Post;
+use Modules\Shared\Repositories\IDatabaseTransactions;
 
-interface IWritePostRepository
+interface IWritePostRepository extends IDatabaseTransactions
 {
     public function create(Post $post): void;
 
