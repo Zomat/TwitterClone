@@ -54,4 +54,20 @@ class CreateUserNotificationTest extends TestCase
             'type' => NotificationType::POST_SHARED
         ]);
     }
+
+    public function test_can_create_post_commented_notification(): void
+    {
+        User::factory()->create([
+            "id" => "123-commented-by-123",
+            "email" => "john.doe@example.com",
+            "password" => Hash::make('123456789')
+        ]);
+
+        $this->service->sendPostCommentedNotification(Id::fromString('123-user-123'), Id::fromString('123-commented-by-123'), "Test comment");
+
+        $this->assertDatabaseHas('notifications', [
+            'user_id' => '123-user-123',
+            'type' => NotificationType::POST_COMMENTED
+        ]);
+    }
 }

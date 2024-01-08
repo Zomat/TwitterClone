@@ -57,4 +57,26 @@ class DatabaseNotificationService implements INotificationService
             sentDate: Carbon::now()->toDateTimeImmutable()
         );
     }
+
+    public function sendPostCommentedNotification(Id $userId, Id $commentedById, string $comment): void
+    {
+        $commentedByUser = $this->userReadRepository->find($commentedById);
+
+        if ($commentedByUser == null) {
+            throw new \Exception("Shared by user not found");
+        }
+
+        $content = "Post commented by " . $commentedByUser->getEmail()->toNative() . '\n';
+        $content .= "Comment: " . $comment;
+
+        $id = $this->idService->generate();
+
+        $this->notificationRepository->save(
+            id: $id,
+            userId: $userId,
+            content: $content,
+            type: NotificationType::POST_COMMENTED,
+            sentDate: Carbon::now()->toDateTimeImmutable()
+        );
+    }
 }
