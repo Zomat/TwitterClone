@@ -2,10 +2,13 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Models\UserProfile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Modules\Auth\Application\Commands\CreateUserCommand;
-use Modules\Auth\Application\Queries\IFindUserQuery;
+use Modules\User\Application\Commands\CreateUserCommand;
+use Modules\User\Application\Dtos\UserDto;
+use Modules\User\Application\Dtos\UserProfileDto;
+use Modules\User\Application\Queries\IFindUserQuery;
 use Modules\Shared\Bus\CommandBus;
 use Modules\Shared\ValueObjects\Email;
 use Modules\Shared\ValueObjects\Id;
@@ -22,16 +25,62 @@ class RegisterUserTest extends TestCase
 
         $commandBus->dispatch(
             new CreateUserCommand(
-                id: Id::fromString('123-test-123'),
+                userId: Id::fromString('123-test-123'),
                 name: 'John Doe',
                 email: Email::fromString('test@example.com'),
                 password: '123456789',
+                profileId: Id::fromString('123-profile-123'),
+                nick: 'testnick',
+                bio: 'Lorem impsum',
+                pictureId: null,
+                picture: null
             )
         );
 
         $this->assertDatabaseHas('users', [
             'id'=> '123-test-123',
             'name' => 'John Doe',
+        ]);
+
+        $this->assertDatabaseHas('user_profiles', [
+            'id' => '123-profile-123',
+            'user_id'=> '123-test-123',
+            'nick' => 'testnick',
+            'bio' => 'Lorem impsum',
+            'pictureId' => null
+        ]);
+    }
+
+    public function test_create_user_and_profile_is_atomic(): void
+    {
+        $commandBus = app(CommandBus::class);
+
+        $commandBus->dispatch(
+            new CreateUserCommand(
+                userId: Id::fromString('123-test-123'),
+                name: 'John Doe',
+                email: Email::fromString('test@example.com'),
+                password: '123456789',
+                profileId: Id::fromString('123-profile-123'),
+                nick: 'testnick',
+                bio: 'Lorem impsum',
+                pictureId: null,
+                picture: null
+            )
+        );
+
+
+        // $this->assertDatabaseHas('users', [
+        //     'id'=> '123-test-123',
+        //     'name' => 'John Doe',
+        // ]);
+
+        $this->assertDatabaseHas('user_profiles', [
+            'id' => '123-profile-123',
+            'user_id'=> '123-test-123',
+            'nick' => 'testnick',
+            'bio' => 'Lorem impsum',
+            'pictureId' => null
         ]);
     }
 }

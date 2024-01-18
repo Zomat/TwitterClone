@@ -4,7 +4,7 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Modules\Auth\Application\Queries\ILoginUserQuery;
+use Modules\User\Application\Queries\ILoginUserQuery;
 use Modules\Shared\Bus\QueryBus;
 use Modules\Shared\ValueObjects\Email;
 use Tests\TestCase;
