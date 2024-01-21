@@ -4,13 +4,15 @@ namespace Modules\Post\Application\Commands;
 
 use Modules\Post\Application\Commands\CreatePostCommand;
 use Modules\Post\Domain\IWritePostRepository;
+use Modules\Post\Domain\TrendService;
 use Modules\Shared\Bus\CommandHandler;
 use Modules\Post\Domain\Post;
 
 class CreatePostCommandHandler extends CommandHandler
 {
     public function __construct(
-        protected IWritePostRepository $repository
+        protected IWritePostRepository $repository,
+        protected TrendService $trendService
     ) {}
 
     public function handle(CreatePostCommand $command)
@@ -25,5 +27,7 @@ class CreatePostCommandHandler extends CommandHandler
         );
 
         $this->repository->create($post);
+
+        $this->trendService->saveFromContent($command->content);
     }
 }
