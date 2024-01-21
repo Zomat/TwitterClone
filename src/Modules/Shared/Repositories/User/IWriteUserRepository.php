@@ -9,4 +9,6 @@ use Modules\Shared\ValueObjects\Id;
 interface IWriteUserRepository extends IDatabaseTransactions
 {
     public function create(Id $id, string $name, Email $email, string $password): void;
+
+    public function follow(Id $id, Id $followerId, Id $followedId, \DateTimeImmutable $createdAt): void;
 }

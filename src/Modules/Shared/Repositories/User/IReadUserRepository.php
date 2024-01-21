@@ -11,4 +11,6 @@ interface IReadUserRepository
     public function find(Id $id): ?User;
 
     public function findByEmail(Email $email): ?User;
+
+    public function follows(Id $followerId, Id $followedId): bool;
 }

@@ -3,7 +3,7 @@
 namespace Modules\User\Infrastructure\Repositories;
 
 use App\Models\PersonalAccessToken;
-use Modules\User\Domain\Repositories\IWritePersonalAccessTokenRepository;
+use Modules\User\Domain\IWritePersonalAccessTokenRepository;
 use Modules\Shared\ValueObjects\Id;
 use App\Models\User as EloquentUser;
 

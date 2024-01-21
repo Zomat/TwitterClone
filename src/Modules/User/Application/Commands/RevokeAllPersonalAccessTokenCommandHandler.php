@@ -2,7 +2,7 @@
 
 namespace Modules\User\Application\Commands;
 
-use Modules\Auth\Domain\Repositories\IWritePersonalAccessTokenRepository;
+use Modules\User\Domain\IWritePersonalAccessTokenRepository;
 use Modules\Shared\Bus\CommandHandler;
 
 class RevokeAllPersonalAccessTokenCommandHandler extends CommandHandler

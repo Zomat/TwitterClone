@@ -12,10 +12,8 @@ use App\Models\PostLike as EloquentPostLike;
 use App\Models\PostComment as EloquentPostComment;
 use App\Models\PostShare as EloquentPostShare;
 
-final class WritePostRepository implements IWritePostRepository
+final class WritePostRepository extends DatabaseTransactions implements IWritePostRepository
 {
-    use DatabaseTransactions;
-
     const POST_LIKES_TABLE = 'post_likes';
 
     public function create(Post $post): void

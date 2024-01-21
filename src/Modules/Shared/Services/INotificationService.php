@@ -11,4 +11,6 @@ interface INotificationService
     public function sendPostSharedNotification(Id $userId, Id $sharedById): void;
 
     public function sendPostCommentedNotification(Id $userId, Id $commentedById, string $comment): void;
+
+    public function sendUserFollowedNotification(Id $userId, Id $followedById): void;
 }

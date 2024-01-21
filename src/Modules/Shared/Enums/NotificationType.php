@@ -7,4 +7,5 @@ enum NotificationType: int
     case POST_LIKED = 1;
     case POST_SHARED = 2;
     case POST_COMMENTED = 3;
+    case USER_FOLLOWED = 4;
 }

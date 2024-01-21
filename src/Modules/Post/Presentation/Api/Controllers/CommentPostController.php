@@ -39,6 +39,6 @@ class CommentPostController extends Controller
         return response()->json([
             "message" => "Comment created",
             "commentId" => $commentId->toNative()
-        ], 200);
+        ], 201);
     }
 }

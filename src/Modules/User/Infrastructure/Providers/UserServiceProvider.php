@@ -9,13 +9,17 @@ use Modules\User\Application\Commands\CreatePersonalAccessTokenCommand;
 use Modules\User\Application\Commands\CreatePersonalAccessTokenCommandHandler;
 use Modules\User\Application\Commands\CreateUserCommand;
 use Modules\User\Application\Commands\CreateUserCommandHandler;
+use Modules\User\Application\Commands\EditUserProfileCommand;
+use Modules\User\Application\Commands\EditUserProfileCommandHandler;
+use Modules\User\Application\Commands\FollowUserCommand;
+use Modules\User\Application\Commands\FollowUserCommandHandler;
 use Modules\User\Application\Commands\RevokeAllPersonalAccessTokenCommand;
 use Modules\User\Application\Commands\RevokeAllPersonalAccessTokenCommandHandler;
 use Modules\User\Application\Queries\FindUserQuery;
 use Modules\User\Application\Queries\IFindUserQuery;
 use Modules\User\Application\Queries\ILoginUserQuery;
 use Modules\User\Application\Queries\LoginUserQuery;
-use Modules\User\Domain\Repositories\IWritePersonalAccessTokenRepository;
+use Modules\User\Domain\IWritePersonalAccessTokenRepository;
 use Modules\User\Infrastructure\Repositories\WritePersonalAccessTokenRepository;
 use Modules\Shared\Bus\CommandBus;
 use Modules\Shared\Repositories\User\IReadUserRepository;
@@ -61,8 +65,10 @@ class UserServiceProvider extends ServiceProvider
 
         $commandBus->register([
             CreateUserCommand::class => CreateUserCommandHandler::class,
+            FollowUserCommand::class => FollowUserCommandHandler::class,
             CreatePersonalAccessTokenCommand::class => CreatePersonalAccessTokenCommandHandler::class,
             RevokeAllPersonalAccessTokenCommand::class => RevokeAllPersonalAccessTokenCommandHandler::class,
+            EditUserProfileCommand::class => EditUserProfileCommandHandler::class
         ]);
     }
 }

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Modules\User\Domain\Repositories;
+namespace Modules\User\Domain;
 
 use Modules\Shared\ValueObjects\Id;
 

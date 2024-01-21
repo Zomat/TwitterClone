@@ -44,4 +44,12 @@ class ReadUserRepository implements IReadUserRepository
             rememberToken: $user->remember_token
         );
     }
+
+    public function follows(Id $followerId, Id $followedId): bool
+    {
+        return DB::table('follows')
+            ->where('follower_id', $followerId->toNative())
+            ->where('followed_id', $followedId->toNative())
+            ->count() > 0;
+    }
 }

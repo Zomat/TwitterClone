@@ -44,6 +44,6 @@ class LikePostController extends Controller
         return response()->json([
             "message" => "Post liked",
             "likeId" => $likeId->toNative()
-        ], 200);
+        ], 201);
     }
 }

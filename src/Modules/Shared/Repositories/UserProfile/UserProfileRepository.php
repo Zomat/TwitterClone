@@ -2,6 +2,10 @@
 
 namespace Modules\Shared\Repositories\UserProfile;
 
+use App\Models\UserProfile as EloquentUserProfile;
+use App\Models\User as EloquentUser;
+use Modules\Shared\Entities\UserProfile;
+use Modules\Shared\Mappers\UserProfileMapper;
 use Modules\Shared\ValueObjects\Id;
 
 class UserProfileRepository implements IUserProfileRepository
@@ -21,5 +25,41 @@ class UserProfileRepository implements IUserProfileRepository
             'bio' => $bio,
             'pictureId' => $pictureId?->toNative()
         ]);
+    }
+
+    public function find(Id $id): UserProfile
+    {
+        $profile = EloquentUserProfile::where('id', $id->toNative())->firstOrFail();
+
+        return UserProfileMapper::toEntity($profile);
+    }
+
+    public function findByUserId(Id $id): UserProfile
+    {
+        $profile = EloquentUser::where('id', $id->toNative())->first()->profile()->first();
+        return UserProfileMapper::toEntity($profile);
+    }
+
+    public function edit(
+        Id $id,
+        ?string $nick = null,
+        ?string $bio = null,
+        ?Id $pictureId = null
+    ): void {
+        $profile = EloquentUserProfile::where('id', $id->toNative())->firstOrFail();
+
+        if ($nick !== null) {
+            $profile->nick = $nick;
+        }
+
+        if ($bio !== null) {
+            $profile->bio = $bio;
+        }
+
+        if ($pictureId !== null) {
+            $profile->pictureId = $pictureId->toNative();
+        }
+
+        $profile->save();
     }
 }

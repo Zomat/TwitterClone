@@ -39,6 +39,6 @@ class SharePostController extends Controller
         return response()->json([
             "message" => "Share created",
             "shareId" => $shareId->toNative()
-        ], 200);
+        ], 201);
     }
 }

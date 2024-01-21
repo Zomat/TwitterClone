@@ -2,7 +2,7 @@
 
 namespace Modules\Shared\Repositories;
 
-trait DatabaseTransactions
+class DatabaseTransactions implements IDatabaseTransactions
 {
     public function beginTransaction(): void
     {

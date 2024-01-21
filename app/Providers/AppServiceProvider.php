@@ -7,6 +7,8 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
 use Modules\Shared\Bus\CommandBus;
 use Modules\Shared\Bus\IlluminateCommandBus;
+use Modules\Shared\Repositories\DatabaseTransactions;
+use Modules\Shared\Repositories\IDatabaseTransactions;
 use Modules\Shared\Repositories\Notification\INotificationRepository;
 use Modules\Shared\Repositories\Notification\NotificationRepository;
 use Modules\Shared\Services\DatabaseNotificationService;
@@ -31,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
             IAuthenticatedUserService::class => SanctumAuthenticatedUserService::class,
             INotificationService::class => DatabaseNotificationService::class,
             INotificationRepository::class => NotificationRepository::class,
+            IDatabaseTransactions::class => DatabaseTransactions::class
         ];
 
         foreach ($singletons as $abstract => $concrete) {

@@ -2,6 +2,7 @@
 
 namespace Modules\Shared\Repositories\UserProfile;
 
+use Modules\Shared\Entities\UserProfile;
 use Modules\Shared\ValueObjects\Id;
 
 interface IUserProfileRepository
@@ -13,4 +14,15 @@ interface IUserProfileRepository
         string $bio,
         ?Id $pictureId
     ): void;
+
+    public function edit(
+        Id $id,
+        ?string $nick,
+        ?string $bio,
+        ?Id $pictureId
+    ): void;
+
+    public function find(Id $id): UserProfile;
+
+    public function findByUserId(Id $id): UserProfile;
 }

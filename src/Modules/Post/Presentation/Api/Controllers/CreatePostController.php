@@ -42,6 +42,6 @@ class CreatePostController extends Controller
         return response()->json([
             "message" => "Post created",
             "postId" => $postId->toNative()
-        ], 200);
+        ], 201);
     }
 }
