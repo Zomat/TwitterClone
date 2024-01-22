@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignUuid('user_id');
             $table->string('nick');
             $table->text('bio')->nullable;
-            $table->string('pictureId')->nullable();
+            $table->string('picture_id')->nullable();
         });
     }
 
