@@ -15,7 +15,7 @@ class TrendService
 
         if (!empty($matches[0])) {
             foreach ($matches[0] as $hashtag) {
-                $this->repository->add(ltrim($hashtag, '#'));
+                $this->repository->add(strtolower(ltrim($hashtag, '#')));
             }
         }
     }

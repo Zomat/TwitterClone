@@ -17,17 +17,25 @@ class CreatePostCommandHandler extends CommandHandler
 
     public function handle(CreatePostCommand $command)
     {
-        $post = new Post;
+        $this->repository->beginTransaction();
 
-        $post->create(
-            id: $command->id,
-            userId: $command->userId,
-            content: $command->content,
-            createdAt: $command->createdAt
-        );
+        try {
+            $post = new Post;
 
-        $this->repository->create($post);
+            $post->create(
+                id: $command->id,
+                userId: $command->userId,
+                content: $command->content,
+                createdAt: $command->createdAt
+            );
 
-        $this->trendService->saveFromContent($command->content);
+            $this->repository->create($post);
+            $this->trendService->saveFromContent($command->content);
+
+            $this->repository->commit();
+        } catch (\Exception $e) {
+            $this->repository->rollback();
+            throw $e;
+        }
     }
 }
