@@ -40,5 +40,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ->name('notifications');
 });
 
+Route::get('/trends', [HomeQueryController::class, 'getTrends'])
+->name('trends');
+
 Route::get('/user/profile/{profileId}', [UserQueryController::class, 'getUserProfile'])
 ->name('profile');

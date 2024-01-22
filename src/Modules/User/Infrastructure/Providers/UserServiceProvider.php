@@ -26,6 +26,7 @@ use Modules\User\Application\Queries\IGetUserProfileQuery;
 use Modules\User\Application\Queries\ILoginUserQuery;
 use Modules\User\Application\Queries\LoginUserQuery;
 use Modules\User\Domain\IWritePersonalAccessTokenRepository;
+use Modules\User\Infrastructure\Queries\GetTrendsQuery;
 use Modules\User\Infrastructure\Queries\GetUserFeedQuery;
 use Modules\User\Infrastructure\Queries\GetUserNotificationsQuery;
 use Modules\User\Infrastructure\Queries\GetUserProfileQuery;
@@ -37,6 +38,7 @@ use Modules\Shared\Repositories\User\ReadUserRepository;
 use Modules\Shared\Repositories\User\WriteUserRepository;
 use Modules\Shared\Repositories\UserProfile\IUserProfileRepository;
 use Modules\Shared\Repositories\UserProfile\UserProfileRepository;
+use Modules\User\Application\Queries\IGetTrendsQuery;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -61,7 +63,8 @@ class UserServiceProvider extends ServiceProvider
             IGetUserProfileQuery::class => GetUserProfileQuery::class,
             IGetHomeFeedQuery::class => \Modules\User\Infrastructure\Queries\GetHomeFeedQuery::class,
             IGetUserFeedQuery::class => GetUserFeedQuery::class,
-            IGetUserNotificationsQuery::class => GetUserNotificationsQuery::class
+            IGetUserNotificationsQuery::class => GetUserNotificationsQuery::class,
+            IGetTrendsQuery::class => GetTrendsQuery::class
         ];
 
         foreach ($singletons as $abstract => $concrete) {
