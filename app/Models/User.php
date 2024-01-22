@@ -61,4 +61,16 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id')
             ->withPivot('created_at');
     }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'user_id', 'id');
+    }
+
+    public function shares()
+    {
+        return $this->belongsToMany(Post::class, 'post_shares', 'user_id', 'post_id')
+            ->withPivot('content')
+            ->withPivot('created_at');
+    }
 }

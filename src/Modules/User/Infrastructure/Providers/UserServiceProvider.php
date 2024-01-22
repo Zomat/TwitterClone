@@ -19,6 +19,7 @@ use Modules\User\Application\Commands\RevokeAllPersonalAccessTokenCommand;
 use Modules\User\Application\Commands\RevokeAllPersonalAccessTokenCommandHandler;
 use Modules\User\Application\Queries\FindUserQuery;
 use Modules\User\Application\Queries\IFindUserQuery;
+use Modules\User\Application\Queries\IGetHomeFeedQuery;
 use Modules\User\Application\Queries\IGetUserProfileQuery;
 use Modules\User\Application\Queries\ILoginUserQuery;
 use Modules\User\Application\Queries\LoginUserQuery;
@@ -54,6 +55,7 @@ class UserServiceProvider extends ServiceProvider
             IFileService::class => StorageFileService::class,
 
             IGetUserProfileQuery::class => GetUserProfileQuery::class,
+            IGetHomeFeedQuery::class => \Modules\User\Infrastructure\Queries\GetHomeFeedQuery::class,
         ];
 
         foreach ($singletons as $abstract => $concrete) {

@@ -11,9 +11,11 @@ use Modules\Post\Application\Commands\LikePostCommand;
 use Modules\Post\Application\Commands\LikePostCommandHandler;
 use Modules\Post\Application\Commands\SharePostCommand;
 use Modules\Post\Application\Commands\SharePostCommandHandler;
+use Modules\Post\Application\Queries\IGetPostQuery;
 use Modules\Post\Domain\IReadPostRepository;
 use Modules\Post\Domain\ITrendRepository;
 use Modules\Post\Domain\IWritePostRepository;
+use Modules\Post\Infrastructure\Queries\GetPostQuery;
 use Modules\Post\Infrastructure\Repositories\ReadPostRepository;
 use Modules\Post\Infrastructure\Repositories\TrendRepository;
 use Modules\Post\Infrastructure\Repositories\WritePostRepository;
@@ -29,7 +31,9 @@ class PostServiceProvider extends ServiceProvider
         $singletons = [
             IWritePostRepository::class => WritePostRepository::class,
             IReadPostRepository::class => ReadPostRepository::class,
-            ITrendRepository::class => TrendRepository::class
+            ITrendRepository::class => TrendRepository::class,
+
+            IGetPostQuery::class => GetPostQuery::class
         ];
 
         foreach ($singletons as $abstract => $concrete) {

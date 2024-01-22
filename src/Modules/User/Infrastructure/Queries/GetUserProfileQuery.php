@@ -4,8 +4,6 @@ namespace Modules\User\Infrastructure\Queries;
 
 use App\Models\UserProfile;
 use App\Models\User;
-use Modules\Shared\Mappers\UserMapper;
-use Modules\Shared\Services\IAuthenticatedUserService;
 use Modules\Shared\Services\IFileService;
 use Modules\User\Application\Queries\IGetUserProfileQuery;
 use Modules\User\Application\Queries\Result\UserProfileDto;
@@ -15,7 +13,6 @@ final class GetUserProfileQuery implements IGetUserProfileQuery
 {
     public function __construct(
         private IFileService $fileService,
-        private IAuthenticatedUserService $authService
     ) {}
 
     public function ask(Id $profileId): ?UserProfileDto

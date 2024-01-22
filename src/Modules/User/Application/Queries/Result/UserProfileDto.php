@@ -7,12 +7,12 @@ use Modules\Shared\ValueObjects\Id;
 final readonly class UserProfileDto
 {
     public function __construct(
-        public readonly string $userId,
-        public readonly string $profileId,
-        public readonly string $nick,
-        public readonly string $bio,
-        public readonly ?string $picturePath,
-        public readonly ?bool $followsAuthUser,
-        public readonly ?bool $followedByAuthUser
+        public string $userId,
+        public string $profileId,
+        public string $nick,
+        public string $bio,
+        public ?string $picturePath,
+        public ?bool $followsAuthUser,
+        public ?bool $followedByAuthUser
     ) {}
 }

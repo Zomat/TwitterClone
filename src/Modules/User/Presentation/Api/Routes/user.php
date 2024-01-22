@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\User\Presentation\Api\Controllers\EditUserProfileController;
 use Modules\User\Presentation\Api\Controllers\FollowUserController;
+use Modules\User\Presentation\Api\Controllers\HomeQueryController;
 use Modules\User\Presentation\Api\Controllers\RegisterController;
 use Modules\User\Presentation\Api\Controllers\LoginController;
 use Modules\User\Presentation\Api\Controllers\UserQueryController;
@@ -27,6 +28,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ->name('follow');
 
     Route::post('/user/edit-profile/', EditUserProfileController::class)
+    ->name('edit-profile');
+
+    Route::get('/feed', [HomeQueryController::class, 'getHomeFeed'])
     ->name('edit-profile');
 });
 
