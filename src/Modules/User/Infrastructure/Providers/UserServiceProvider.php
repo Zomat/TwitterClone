@@ -21,11 +21,13 @@ use Modules\User\Application\Queries\FindUserQuery;
 use Modules\User\Application\Queries\IFindUserQuery;
 use Modules\User\Application\Queries\IGetHomeFeedQuery;
 use Modules\User\Application\Queries\IGetUserFeedQuery;
+use Modules\User\Application\Queries\IGetUserNotificationsQuery;
 use Modules\User\Application\Queries\IGetUserProfileQuery;
 use Modules\User\Application\Queries\ILoginUserQuery;
 use Modules\User\Application\Queries\LoginUserQuery;
 use Modules\User\Domain\IWritePersonalAccessTokenRepository;
 use Modules\User\Infrastructure\Queries\GetUserFeedQuery;
+use Modules\User\Infrastructure\Queries\GetUserNotificationsQuery;
 use Modules\User\Infrastructure\Queries\GetUserProfileQuery;
 use Modules\User\Infrastructure\Repositories\WritePersonalAccessTokenRepository;
 use Modules\Shared\Bus\CommandBus;
@@ -59,6 +61,7 @@ class UserServiceProvider extends ServiceProvider
             IGetUserProfileQuery::class => GetUserProfileQuery::class,
             IGetHomeFeedQuery::class => \Modules\User\Infrastructure\Queries\GetHomeFeedQuery::class,
             IGetUserFeedQuery::class => GetUserFeedQuery::class,
+            IGetUserNotificationsQuery::class => GetUserNotificationsQuery::class
         ];
 
         foreach ($singletons as $abstract => $concrete) {

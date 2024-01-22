@@ -28,7 +28,7 @@ final class GetUserFeedQuery implements IGetUserFeedQuery
 
         $feed = collect();
         $feed = $feed->concat($user->posts)->concat($user->shares);
-        $feed = $feed->sortByDesc('created_at')->values()->all();
+        $feed = $feed->sortBy('created_at')->values()->all();
 
         foreach ($feed as $post) {
             $comments = [];

@@ -31,7 +31,7 @@ final class GetHomeFeedQuery implements IGetHomeFeedQuery
             $feed = $feed->concat($follow->posts)->concat($follow->shares);
         }
 
-        $feed->sortByDesc('created_at')->values()->all();
+        $feed->sortBy('created_at')->values()->all();
 
         foreach ($feed as $post) {
             $comments = [];

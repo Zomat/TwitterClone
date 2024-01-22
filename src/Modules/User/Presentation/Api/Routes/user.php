@@ -35,6 +35,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/user/profile/{profileId}/feed', [UserQueryController::class, 'getUserFeed'])
     ->name('profile-feed');
+
+    Route::get('/notifications', [UserQueryController::class, 'getUserNotifications'])
+    ->name('notifications');
 });
 
 Route::get('/user/profile/{profileId}', [UserQueryController::class, 'getUserProfile'])
