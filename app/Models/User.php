@@ -71,6 +71,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Post::class, 'post_shares', 'user_id', 'post_id')
             ->withPivot('content')
+            ->withPivot('id')
             ->withPivot('created_at');
     }
 }

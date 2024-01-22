@@ -11,9 +11,10 @@ use Modules\Post\Application\Queries\Results\SharedPostDto;
 use Modules\Shared\Services\IFileService;
 use Modules\Shared\ValueObjects\Id;
 use Modules\User\Application\Queries\IGetHomeFeedQuery;
+use Modules\User\Application\Queries\IGetUserFeedQuery;
 use Modules\User\Application\Queries\IGetUserProfileQuery;
 
-final class GetHomeFeedQuery implements IGetHomeFeedQuery
+final class GetUserFeedQuery implements IGetUserFeedQuery
 {
     public function __construct(
         private IFileService $fileService,
@@ -23,15 +24,11 @@ final class GetHomeFeedQuery implements IGetHomeFeedQuery
     public function ask(Id $userId, int $batch): array
     {
         $result = [];
-        $user = User::with(['follows.posts', 'follows.shares'])->where('id', $userId->toNative())->first();
+        $user = User::with(['posts', 'shares'])->where('id', $userId->toNative())->first();
 
         $feed = collect();
-
-        foreach ($user->follows as $follow) {
-            $feed = $feed->concat($follow->posts)->concat($follow->shares);
-        }
-
-        $feed->sortByDesc('created_at')->values()->all();
+        $feed = $feed->concat($user->posts)->concat($user->shares);
+        $feed = $feed->sortByDesc('created_at')->values()->all();
 
         foreach ($feed as $post) {
             $comments = [];

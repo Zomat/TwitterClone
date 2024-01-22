@@ -3,7 +3,10 @@
 namespace Modules\User\Presentation\Api\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\UserProfile;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Modules\User\Application\Queries\IGetUserFeedQuery;
 use Modules\User\Application\Queries\IGetUserProfileQuery;
 use Modules\Shared\ValueObjects\Id;
 use Illuminate\Http\Response;
@@ -19,5 +22,19 @@ class UserQueryController extends Controller
         }
 
         return new JsonResponse($profile);
+    }
+
+    public function getUserFeed(string $profileId, IGetUserFeedQuery $query): JsonResponse
+    {
+        $profile = UserProfile::where('id', $profileId)->first();
+
+        if ($profile === null) {
+            return response()->json(['error' => 'Profile not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $batch = 15;
+        $feed = $query->ask(Id::fromString($profile->user->id), $batch);
+
+        return new JsonResponse($feed);
     }
 }
