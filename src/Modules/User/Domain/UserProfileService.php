@@ -2,7 +2,7 @@
 
 namespace Modules\User\Domain;
 
-use Modules\Shared\Repositories\UserProfile\UserProfileRepository;
+use Modules\Shared\Repositories\UserProfile\IUserProfileRepository;
 use Modules\Shared\Services\IdService;
 use Modules\Shared\Services\IFileService;
 use Modules\Shared\ValueObjects\Id;
@@ -13,7 +13,7 @@ class UserProfileService
     private const PICTURES_DIR = 'profile-pictures/';
 
     public function __construct(
-        private UserProfileRepository $repository,
+        private IUserProfileRepository $repository,
         private IdService $idService,
         private IFileService $fileService
     ) {}
@@ -23,7 +23,8 @@ class UserProfileService
         // Check if profil exists
         $profile = $this->repository->find($id);
 
-        $oldPictureId = $profile?->getPictureId();
+        $oldPictureId = $profile->getPictureId();
+
         $newPictureId = is_null($picture) ? null : $this->idService->generate();
 
         // Picture logic

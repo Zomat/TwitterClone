@@ -5,6 +5,7 @@ use Modules\User\Presentation\Api\Controllers\EditUserProfileController;
 use Modules\User\Presentation\Api\Controllers\FollowUserController;
 use Modules\User\Presentation\Api\Controllers\RegisterController;
 use Modules\User\Presentation\Api\Controllers\LoginController;
+use Modules\User\Presentation\Api\Controllers\UserQueryController;
 
 
 Route::post('/register', RegisterController::class)
@@ -15,17 +16,19 @@ Route::post('/login', LoginController::class)
     ->middleware('guest')
     ->name('login');
 
-Route::get('/me', function () {
-    $user = (app(\Modules\Shared\Services\IAuthenticatedUserService::class))->get();
-    return response()->json($user?->toArray());
-})
-->middleware('auth:sanctum')
-->name('me');
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/me', function () {
+        $user = (app(\Modules\Shared\Services\IAuthenticatedUserService::class))->get();
+        return response()->json($user?->toArray());
+    })
+    ->name('me');
 
-Route::post('/user/follow/', FollowUserController::class)
-->middleware('auth:sanctum')
-->name('follow');
+    Route::post('/user/follow/', FollowUserController::class)
+    ->name('follow');
 
-Route::post('/user/edit-profile/', EditUserProfileController::class)
-->middleware('auth:sanctum')
-->name('edit-profile');
+    Route::post('/user/edit-profile/', EditUserProfileController::class)
+    ->name('edit-profile');
+});
+
+Route::get('/user/profile/{profileId}', [UserQueryController::class, 'getUserProfile'])
+->name('profile');

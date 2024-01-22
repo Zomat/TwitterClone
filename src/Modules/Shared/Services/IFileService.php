@@ -10,5 +10,5 @@ interface IFileService
 
     public function delete(string $filePath): void;
 
-    function getByFilename(string $directory, string $fileNameWithoutExtension): ?File;
+    public function getByFilename(string $directory, string $fileNameWithoutExtension): ?File;
 }

@@ -25,7 +25,7 @@ class StorageFileService implements IFileService
             $pathinfo = pathinfo($file);
 
             if ($pathinfo['filename'] === $fileNameWithoutExtension) {
-                return File::fromPath($pathinfo['basename']);
+                return File::fromPath($directory.'/'.$pathinfo['basename']);
             }
         }
 

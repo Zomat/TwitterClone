@@ -3,6 +3,8 @@
 namespace Modules\User\Infrastructure\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\Shared\Repositories\User\EReadUserRepository;
+use Modules\Shared\Repositories\User\EWriteUserRepository;
 use Modules\Shared\Services\IFileService;
 use Modules\Shared\Services\StorageFileService;
 use Modules\User\Application\Commands\CreatePersonalAccessTokenCommand;
@@ -17,9 +19,11 @@ use Modules\User\Application\Commands\RevokeAllPersonalAccessTokenCommand;
 use Modules\User\Application\Commands\RevokeAllPersonalAccessTokenCommandHandler;
 use Modules\User\Application\Queries\FindUserQuery;
 use Modules\User\Application\Queries\IFindUserQuery;
+use Modules\User\Application\Queries\IGetUserProfileQuery;
 use Modules\User\Application\Queries\ILoginUserQuery;
 use Modules\User\Application\Queries\LoginUserQuery;
 use Modules\User\Domain\IWritePersonalAccessTokenRepository;
+use Modules\User\Infrastructure\Queries\GetUserProfileQuery;
 use Modules\User\Infrastructure\Repositories\WritePersonalAccessTokenRepository;
 use Modules\Shared\Bus\CommandBus;
 use Modules\Shared\Repositories\User\IReadUserRepository;
@@ -39,6 +43,8 @@ class UserServiceProvider extends ServiceProvider
         $singletons = [
             IReadUserRepository::class => ReadUserRepository::class,
             IWriteUserRepository::class => WriteUserRepository::class,
+            // IReadUserRepository::class => EReadUserRepository::class,
+            // IWriteUserRepository::class => EWriteUserRepository::class,
             IWritePersonalAccessTokenRepository::class => WritePersonalAccessTokenRepository::class,
 
             ILoginUserQuery::class => LoginUserQuery::class,
@@ -46,6 +52,8 @@ class UserServiceProvider extends ServiceProvider
 
             IUserProfileRepository::class => UserProfileRepository::class,
             IFileService::class => StorageFileService::class,
+
+            IGetUserProfileQuery::class => GetUserProfileQuery::class,
         ];
 
         foreach ($singletons as $abstract => $concrete) {
@@ -64,11 +72,12 @@ class UserServiceProvider extends ServiceProvider
         $commandBus = app(CommandBus::class);
 
         $commandBus->register([
+            // Commands
             CreateUserCommand::class => CreateUserCommandHandler::class,
             FollowUserCommand::class => FollowUserCommandHandler::class,
             CreatePersonalAccessTokenCommand::class => CreatePersonalAccessTokenCommandHandler::class,
             RevokeAllPersonalAccessTokenCommand::class => RevokeAllPersonalAccessTokenCommandHandler::class,
-            EditUserProfileCommand::class => EditUserProfileCommandHandler::class
+            EditUserProfileCommand::class => EditUserProfileCommandHandler::class,
         ]);
     }
 }

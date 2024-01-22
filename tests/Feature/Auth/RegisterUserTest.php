@@ -47,7 +47,7 @@ class RegisterUserTest extends TestCase
             'user_id'=> '123-test-123',
             'nick' => 'testnick',
             'bio' => 'Lorem impsum',
-            'pictureId' => null
+            'picture_id' => null
         ]);
     }
 
@@ -80,7 +80,7 @@ class RegisterUserTest extends TestCase
             'user_id'=> '123-test-123',
             'nick' => 'testnick',
             'bio' => 'Lorem impsum',
-            'pictureId' => null
+            'picture_id' => null
         ]);
     }
 }

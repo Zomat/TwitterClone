@@ -23,7 +23,7 @@ class UserProfileRepository implements IUserProfileRepository
             'user_id' => $userId->toNative(),
             'nick' => $nick,
             'bio' => $bio,
-            'pictureId' => $pictureId?->toNative()
+            'picture_id' => $pictureId?->toNative()
         ]);
     }
 
@@ -57,7 +57,7 @@ class UserProfileRepository implements IUserProfileRepository
         }
 
         if ($pictureId !== null) {
-            $profile->pictureId = $pictureId->toNative();
+            $profile->picture_id = $pictureId->toNative();
         }
 
         $profile->save();

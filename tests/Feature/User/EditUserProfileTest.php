@@ -74,7 +74,7 @@ class EditUserProfileTest extends TestCase
             'id' => $this->profileId->toNative(),
             'nick' => 'editnick',
             'bio' => 'Lorem impsum',
-            'pictureId' => null
+            'picture_id' => null
         ]);
 
         $this->commandBus->dispatch(
@@ -90,7 +90,7 @@ class EditUserProfileTest extends TestCase
             'id' => $this->profileId->toNative(),
             'nick' => 'editnick2',
             'bio' => 'bio',
-            'pictureId' => null
+            'picture_id' => null
         ]);
     }
 
@@ -114,13 +114,13 @@ class EditUserProfileTest extends TestCase
 
         $profile = UserProfile::first();
 
-        Storage::disk('local')->assertExists('profile-pictures/'.$profile->pictureId.'.png');
+        Storage::disk('local')->assertExists('profile-pictures/'.$profile->picture_id.'.png');
 
         $this->assertDatabaseHas('user_profiles', [
             'id' => $this->profileId->toNative(),
             'nick' => 'editnick',
             'bio' => 'Lorem impsum',
-            'pictureId' => $profile->pictureId
+            'picture_id' => $profile->picture_id
         ]);
 
         $this->commandBus->dispatch(
