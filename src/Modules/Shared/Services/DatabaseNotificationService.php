@@ -21,12 +21,13 @@ class DatabaseNotificationService implements INotificationService
     public function sendPostLikedNotification(Id $userId, Id $likedById): void
     {
         $likedByUser = $this->userReadRepository->find($likedById);
+        $profile = $this->userProfileRepository->findByUserId($likedByUser->getId());
 
         if ($likedByUser == null) {
             throw new \Exception("Liked by user not found");
         }
 
-        $content = "Post liked by " . $likedByUser->getEmail()->toNative();
+        $content = "Post liked by " . $profile->getNick();
 
         $id = $this->idService->generate();
 
@@ -42,12 +43,13 @@ class DatabaseNotificationService implements INotificationService
     public function sendPostSharedNotification(Id $userId, Id $sharedById): void
     {
         $sharedByUser = $this->userReadRepository->find($sharedById);
+        $profile = $this->userProfileRepository->findByUserId($sharedByUser->getId());
 
         if ($sharedByUser == null) {
             throw new \Exception("Shared by user not found");
         }
 
-        $content = "Post shared by " . $sharedByUser->getEmail()->toNative();
+        $content = "Post shared by " . $profile->getNick();
 
         $id = $this->idService->generate();
 
@@ -63,12 +65,13 @@ class DatabaseNotificationService implements INotificationService
     public function sendPostCommentedNotification(Id $userId, Id $commentedById, string $comment): void
     {
         $commentedByUser = $this->userReadRepository->find($commentedById);
+        $profile = $this->userProfileRepository->findByUserId($commentedByUser->getId());
 
         if ($commentedByUser == null) {
-            throw new \Exception("Shared by user not found");
+            throw new \Exception("Commented by user not found");
         }
 
-        $content = "Post commented by " . $commentedByUser->getEmail()->toNative() . '\n';
+        $content = "Post commented by " . $profile->getNick() . '\n';
         $content .= "Comment: " . $comment;
 
         $id = $this->idService->generate();

@@ -37,6 +37,7 @@ class UserProfileRepository implements IUserProfileRepository
     public function findByUserId(Id $id): UserProfile
     {
         $profile = EloquentUser::where('id', $id->toNative())->first()->profile()->first();
+
         return UserProfileMapper::toEntity($profile);
     }
 

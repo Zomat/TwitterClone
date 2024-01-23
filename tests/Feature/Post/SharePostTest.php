@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Post;
 
+use App\Models\UserProfile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Modules\Post\Application\Commands\SharePostCommand;
@@ -32,6 +33,13 @@ class SharePostTest extends TestCase
             "id" => "123-shared-by-123",
             "email" => "john.doe@example.com",
             "password" => Hash::make('123456789')
+        ]);
+
+        UserProfile::create([
+            "id" => "123-profile-123",
+            "user_id" => "123-shared-by-123",
+            "nick" => "nickk",
+            "bio" => "bio"
         ]);
 
         $commandBus->dispatch(

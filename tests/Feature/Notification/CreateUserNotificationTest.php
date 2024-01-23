@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Notification;
 
+use App\Models\UserProfile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Shared\Enums\NotificationType;
 use Modules\Shared\Services\INotificationService;
@@ -21,17 +22,24 @@ class CreateUserNotificationTest extends TestCase
         parent::setUp();
 
         $this->service = app(INotificationService::class);
-    }
 
-    public function test_can_create_post_liked_notification(): void
-    {
         User::factory()->create([
-            "id" => "123-liked-by-123",
+            "id" => "123-action-by-123",
             "email" => "john.doe@example.com",
             "password" => Hash::make('123456789')
         ]);
 
-        $this->service->sendPostLikedNotification(Id::fromString('123-user-123'), Id::fromString('123-liked-by-123'));
+        UserProfile::create([
+            "id" => "123-profile-123",
+            "user_id" => "123-action-by-123",
+            "nick" => "nickk",
+            "bio" => "bio"
+        ]);
+    }
+
+    public function test_can_create_post_liked_notification(): void
+    {
+        $this->service->sendPostLikedNotification(Id::fromString('123-user-123'), Id::fromString('123-action-by-123'));
 
         $this->assertDatabaseHas('notifications', [
             'user_id' => '123-user-123',
@@ -41,13 +49,7 @@ class CreateUserNotificationTest extends TestCase
 
     public function test_can_create_post_shared_notification(): void
     {
-        User::factory()->create([
-            "id" => "123-shared-by-123",
-            "email" => "john.doe@example.com",
-            "password" => Hash::make('123456789')
-        ]);
-
-        $this->service->sendPostSharedNotification(Id::fromString('123-user-123'), Id::fromString('123-shared-by-123'));
+        $this->service->sendPostSharedNotification(Id::fromString('123-user-123'), Id::fromString('123-action-by-123'));
 
         $this->assertDatabaseHas('notifications', [
             'user_id' => '123-user-123',
@@ -57,13 +59,7 @@ class CreateUserNotificationTest extends TestCase
 
     public function test_can_create_post_commented_notification(): void
     {
-        User::factory()->create([
-            "id" => "123-commented-by-123",
-            "email" => "john.doe@example.com",
-            "password" => Hash::make('123456789')
-        ]);
-
-        $this->service->sendPostCommentedNotification(Id::fromString('123-user-123'), Id::fromString('123-commented-by-123'), "Test comment");
+        $this->service->sendPostCommentedNotification(Id::fromString('123-user-123'), Id::fromString('123-action-by-123'), "Test comment");
 
         $this->assertDatabaseHas('notifications', [
             'user_id' => '123-user-123',

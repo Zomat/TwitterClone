@@ -15,6 +15,8 @@ class UserProfile extends Model
     protected $keyType = 'string';
     public $timestamps = false;
 
+    protected $fillable = ['id', 'user_id', 'nick', 'bio', 'pictureId'];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

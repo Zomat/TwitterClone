@@ -48,10 +48,10 @@ class UserServiceProvider extends ServiceProvider
     public function register(): void
     {
         $singletons = [
-            IReadUserRepository::class => ReadUserRepository::class,
-            IWriteUserRepository::class => WriteUserRepository::class,
-            // IReadUserRepository::class => EReadUserRepository::class,
-            // IWriteUserRepository::class => EWriteUserRepository::class,
+            // IReadUserRepository::class => ReadUserRepository::class,
+            // IWriteUserRepository::class => WriteUserRepository::class,
+            IReadUserRepository::class => EReadUserRepository::class,
+            IWriteUserRepository::class => EWriteUserRepository::class,
             IWritePersonalAccessTokenRepository::class => WritePersonalAccessTokenRepository::class,
 
             ILoginUserQuery::class => LoginUserQuery::class,
