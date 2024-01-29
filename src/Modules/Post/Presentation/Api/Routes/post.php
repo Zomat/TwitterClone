@@ -6,10 +6,12 @@ use Modules\Post\Presentation\Api\Controllers\CreatePostController;
 use Modules\Post\Presentation\Api\Controllers\LikePostController;
 use Modules\Post\Presentation\Api\Controllers\PostQueryController;
 use Modules\Post\Presentation\Api\Controllers\SharePostController;
+use Modules\Post\Presentation\Api\Controllers\UnlikePostController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/post', CreatePostController::class)->name('create');
     Route::post('/post/like', LikePostController::class)->name('like');
+    Route::post('/post/unlike', UnlikePostController::class)->name('unlike');
     Route::post('/post/comment', CommentPostController::class)->name('comment');
     Route::post('/post/share', SharePostController::class)->name('share');
 });

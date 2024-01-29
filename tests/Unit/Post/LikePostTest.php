@@ -59,6 +59,39 @@ class LikePostTest extends TestCase
         ]);
     }
 
+    public function test_can_unlike_post(): void
+    {
+         /* Given */
+        $likeId = Id::fromString('123-like-123');
+        $userId = Id::fromString('123-user-id-123');
+        $createdAt = new \DateTime;
+
+        /* When */
+        $this->post->like(
+            likeId: $likeId,
+            userId: $userId,
+            createdAt: $createdAt
+        );
+
+        /* Then */
+        $this->assertEquals($this->post->getPayload()['likes'], [
+            [
+                'id' => $likeId->toNative(),
+                'postId' => $this->postId->toNative(),
+                'userId' => $userId->toNative(),
+                'createdAt' => $this->postCreatedAt->format(self::DATE_FORMAT)
+            ]
+        ]);
+
+        /* When */
+        $this->post->unlike(
+            userId: $userId
+        );
+
+        /* Then */
+        $this->assertEquals(0, count($this->post->getPayload()['likes']));
+    }
+
     public function test_if_same_user_cant_like_post_twice(): void
     {
          /* Given */

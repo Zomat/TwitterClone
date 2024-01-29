@@ -17,7 +17,7 @@ class HomeQueryController extends Controller
         $cacheKey = 'user_feed_' . $userId->toNative();
         $batch = 15;
 
-        $feed = Cache::remember($cacheKey, now()->addMinutes(1), function () use ($query, $userId, $batch) {
+        $feed = Cache::remember($cacheKey, now()->addSeconds(5), function () use ($query, $userId, $batch) {
             return $query->ask($userId, $batch);
         });
 

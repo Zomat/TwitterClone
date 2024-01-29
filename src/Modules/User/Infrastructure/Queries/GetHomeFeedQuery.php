@@ -38,7 +38,7 @@ final class GetHomeFeedQuery implements IGetHomeFeedQuery
 
             $likedByAuthUser = $post->likes->where('user_id', $user->id)->first()?->exists() ?? false;
 
-            foreach ($post->comments as $comment) {
+            foreach ($post->comments->sortBy('created_at') as $comment) {
                 $profile = $comment->user->profile->first();
 
                 if ($profile->picture_id !== null) {
@@ -68,11 +68,16 @@ final class GetHomeFeedQuery implements IGetHomeFeedQuery
 
             if ($post->pivot !== null) {
                 $sharerProfile = UserProfile::where('user_id', $post->pivot->user_id)->first();
+                if ($sharerProfile->picture_id !== null && !empty($sharerProfile->picture_id)) {
+                    $sharerPicture = $this->fileService->getByFilename('profile-pictures/', $sharerProfile->picture_id);
+                }
+
                 $dto = new SharedPostDto(
                     shareId: $post->pivot->id,
                     post: $dto,
                     content: $post->pivot->content,
                     sharerNick: $sharerProfile->nick,
+                    sharerPicturePath: isset($sharerPicture) ? $sharerPicture->fullpath : null,
                     sharerProfileId: $sharerProfile->id
                 );
             }

@@ -25,7 +25,7 @@ final class GetUserProfileQuery implements IGetUserProfileQuery
 
         $user = User::where('id', $profile->user_id)->first();
 
-        if ($profile->picture_id !== null) {
+        if ($profile->picture_id !== null && !empty($profile->picture_id)) {
             $picture = $this->fileService->getByFilename('profile-pictures/', $profile->picture_id);
         }
 

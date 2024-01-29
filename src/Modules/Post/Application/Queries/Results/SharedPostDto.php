@@ -9,6 +9,7 @@ final readonly class SharedPostDto
         public PostDto $post,
         public string $content,
         public string $sharerNick,
+        public ?string $sharerPicturePath,
         public string $sharerProfileId
     ) {}
 }

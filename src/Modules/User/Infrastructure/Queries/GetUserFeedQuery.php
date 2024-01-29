@@ -65,11 +65,16 @@ final class GetUserFeedQuery implements IGetUserFeedQuery
 
             if ($post->pivot !== null) {
                 $sharerProfile = UserProfile::where('user_id', $post->pivot->user_id)->first();
+                if ($sharerProfile->picture_id !== null && !empty($sharerProfile->picture_id)) {
+                    $sharerPicture = $this->fileService->getByFilename('profile-pictures/', $sharerProfile->picture_id);
+                }
+
                 $dto = new SharedPostDto(
                     shareId: $post->pivot->id,
                     post: $dto,
                     content: $post->pivot->content,
                     sharerNick: $sharerProfile->nick,
+                    sharerPicturePath: isset($sharerPicture) ? $sharerPicture->fullpath : null,
                     sharerProfileId: $sharerProfile->id
                 );
             }

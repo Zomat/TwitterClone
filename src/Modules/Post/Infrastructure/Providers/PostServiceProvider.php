@@ -11,6 +11,8 @@ use Modules\Post\Application\Commands\LikePostCommand;
 use Modules\Post\Application\Commands\LikePostCommandHandler;
 use Modules\Post\Application\Commands\SharePostCommand;
 use Modules\Post\Application\Commands\SharePostCommandHandler;
+use Modules\Post\Application\Commands\UnlikePostCommand;
+use Modules\Post\Application\Commands\UnlikePostCommandHandler;
 use Modules\Post\Application\Queries\IGetPostQuery;
 use Modules\Post\Domain\IReadPostRepository;
 use Modules\Post\Domain\ITrendRepository;
@@ -54,6 +56,7 @@ class PostServiceProvider extends ServiceProvider
         $commandBus->register([
             CreatePostCommand::class => CreatePostCommandHandler::class,
             LikePostCommand::class => LikePostCommandHandler::class,
+            UnlikePostCommand::class => UnlikePostCommandHandler::class,
             CommentPostCommand::class => CommentPostCommandHandler::class,
             SharePostCommand::class => SharePostCommandHandler::class
         ]);

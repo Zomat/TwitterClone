@@ -66,6 +66,17 @@ final class Post extends AggregateRoot
         );
     }
 
+    public function unlike(Id $userId): void
+    {
+        $existingLikeIndex = $this->findLikeIndex($userId);
+
+        if ($existingLikeIndex === null) {
+            throw new \Exception('You have not liked that post previously');
+        }
+
+        unset($this->likes[$existingLikeIndex]);
+    }
+
     public function comment(Id $commentId, Id $userId, string $content, \DateTime $createdAt): void
     {
         $this->comments[] = new Comment(
@@ -90,5 +101,16 @@ final class Post extends AggregateRoot
             'likes' => $nativeLikes,
             'comments' => $nativeComments
         ];
+    }
+
+    private function findLikeIndex(Id $userId): ?int
+    {
+        foreach ($this->likes as $index => $like) {
+            if ($like->getUserId()->equals($userId)) {
+                return $index;
+            }
+        }
+
+        return null;
     }
 }

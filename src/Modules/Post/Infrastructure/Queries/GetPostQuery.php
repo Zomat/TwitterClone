@@ -28,11 +28,11 @@ final class GetPostQuery implements IGetPostQuery
         $authUser = auth('sanctum')->user();
 
         if ($authUser !== null) {
-            $likedByAuthUser = $post->likes->where('user_id', $authUser->id)->first()->exists();
+            $likedByAuthUser = $post->likes->where('user_id', $authUser->id)->first()?->exists();
         }
 
         $comments = [];
-        foreach ($post->comments as $comment) {
+        foreach ($post->comments->sortBy('created_at') as $comment) {
             $profile = $comment->user->profile()->first();
             if ($profile->picture_id !== null) {
                 $picture = $this->fileService->getByFilename('profile-pictures/', $profile->picture_id);
